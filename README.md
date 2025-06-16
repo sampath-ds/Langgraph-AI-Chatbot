@@ -46,35 +46,6 @@ A **Perplexity-style AI chatbot** built with **Next.js**, **FastAPI**, and **Lan
   - **Tavily Search API** for fetching real-time data
 - Token responses streamed using **SSE** for ultra-low latency
 
----
-
-## 🔍 How It Works – Request Lifecycle
-
-```mermaid
-sequenceDiagram
-    participant User
-    participant Frontend (Next.js)
-    participant Backend (FastAPI)
-    participant LangGraph
-    participant Tavily API
-    participant LLM (GPT-4o/Groq)
-
-    User->>Frontend: Submit query
-    Frontend->>Backend: Send API request (SSE)
-    Backend->>LangGraph: Process via agents
-    LangGraph-->>LLM: Check if search is needed
-    alt External Search Required
-        LangGraph->>Tavily API: Perform search
-        Tavily API-->>LangGraph: Return results
-    end
-    LangGraph-->>LLM: Provide context + search results
-    LLM-->>Backend: Generate response (token by token)
-    Backend-->>Frontend: Stream tokens to UI (SSE)
-    Frontend->>User: Display real-time reasoning flow
-```
-
----
-
 ## 🚀 Getting Started
 
 ### 🔑 Prerequisites
@@ -138,11 +109,6 @@ Navigate to: `http://localhost:3000`
 
 ---
 
-## 📸 Screenshots
-
-> *(Insert relevant UI screenshots here — chat flow, search UI, reasoning stages, etc.)*
-
----
 
 ## 🔗 API Integration
 
@@ -158,14 +124,4 @@ Navigate to: `http://localhost:3000`
 - [FastAPI Docs](https://fastapi.tiangolo.com/)
 - [Next.js Docs](https://nextjs.org/docs)
 
----
 
-## 🤝 Contributing
-
-Pull requests are welcome! Please ensure your code follows the project’s code style and passes linting.
-
----
-
-## 📝 License
-
-[MIT License](LICENSE)
