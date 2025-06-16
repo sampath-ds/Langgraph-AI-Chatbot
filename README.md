@@ -1,93 +1,171 @@
 # 🧠 LangGraph AI Chatbot
 
-A fully customizable, modern AI chatbot interface built with **Next.js**, **FastAPI**, and **LangGraph** — inspired by Perplexity.ai. It offers real-time streaming, integrated web search, and contextual memory for natural, dynamic interactions. This hands-on project is ideal for both learning and production deployment.
+A **Perplexity-style AI chatbot** built with **Next.js**, **FastAPI**, and **LangGraph**, featuring **real-time streaming**, **web search via Tavily**, and **semantic conversational memory**. This project demonstrates how to deploy a scalable, modern AI chatbot for both learning and production use.
 
 ---
 
-## ✨ Features
+## ✨ Key Features
 
-- **Real-time AI Streaming** – Responses are streamed token by token for a fluid chat experience  
-- **Live Web Search** – Integrates with Tavily API to fetch and summarize up-to-date online content  
-- **Conversation Memory** – Retains user history for more intelligent follow-up responses  
-- **Transparent Reasoning Flow** – Clearly shows the stages of thinking: *Searching → Reading → Writing*  
-- **Responsive UI** – Mobile-first, clean interface with intuitive user experience  
+- 🔁 **Real-time AI Streaming**  
+  Instant, token-by-token response rendering via Server-Sent Events (SSE)
 
----
+- 🌐 **Live Web Search**  
+  Dynamic integration with Tavily API to fetch and summarize up-to-date online content
 
-## 🛠️ Tech Stack
+- 🧠 **Conversation Memory**  
+  Context retention using LangGraph to enable smarter, multi-turn interactions
 
-### Frontend – Next.js + React  
-- Built using the latest features in React and App Router  
-- Seamless token streaming via Server-Sent Events (SSE)  
-- Custom components for chat history, user input, and step-by-step AI reasoning  
-- Designed with Tailwind CSS for clean, modern visuals  
+- 🔎 **Transparent Reasoning Flow**  
+  Clearly visualizes the bot’s reasoning stages: `Searching → Reading → Responding`
 
-### Backend – FastAPI + LangGraph  
-- FastAPI provides REST APIs and real-time streaming endpoints  
-- LangGraph handles multi-tool reasoning chains and conversation memory  
-- Uses Groq or OpenAI (GPT-4o) for semantic language generation  
-- Tavily API fetches real-time web content for enhanced answers  
-- Low-latency token streaming for a snappy experience  
+- 📱 **Responsive Modern UI**  
+  Clean and elegant UI design, optimized for mobile, tablet, and desktop
 
 ---
 
-## 🔍 How It Works
+## 🛠️ Tech Stack & Architecture
 
-1. User submits a query via the chat interface  
-2. FastAPI receives the query and invokes LangGraph  
-3. LangGraph determines whether a web search is required  
-4. If needed, Tavily API is used to gather relevant web results  
-5. The LLM (Groq or OpenAI) synthesizes the final answer using memory and results  
-6. The response is streamed token by token to the UI  
-7. User sees visual feedback for each reasoning stage in real-time  
+### 🖥️ **Frontend** — `Next.js + React`
+- Built with **Next.js 14+ App Router**
+- Supports **live updates** via SSE from FastAPI
+- Custom components for:
+  - Chat messages
+  - User inputs
+  - Search transparency
+- Styled with Tailwind CSS for a sleek UI
+
+### ⚙️ **Backend** — `FastAPI + LangGraph`
+- **FastAPI** handles:
+  - REST endpoints
+  - Real-time streaming
+- **LangGraph** manages:
+  - Multi-step conversational logic
+  - Search + reasoning tool chaining
+- Uses:
+  - **Groq (LLaMA)** or **OpenAI GPT-4o** for LLM responses
+  - **Tavily Search API** for fetching real-time data
+- Token responses streamed using **SSE** for ultra-low latency
+
+---
+
+## 🔍 How It Works – Request Lifecycle
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant Frontend (Next.js)
+    participant Backend (FastAPI)
+    participant LangGraph
+    participant Tavily API
+    participant LLM (GPT-4o/Groq)
+
+    User->>Frontend: Submit query
+    Frontend->>Backend: Send API request (SSE)
+    Backend->>LangGraph: Process via agents
+    LangGraph-->>LLM: Check if search is needed
+    alt External Search Required
+        LangGraph->>Tavily API: Perform search
+        Tavily API-->>LangGraph: Return results
+    end
+    LangGraph-->>LLM: Provide context + search results
+    LLM-->>Backend: Generate response (token by token)
+    Backend-->>Frontend: Stream tokens to UI (SSE)
+    Frontend->>User: Display real-time reasoning flow
+```
 
 ---
 
 ## 🚀 Getting Started
 
-### Prerequisites  
-- Node.js v18+  
-- Python v3.10+  
-- API keys for OpenAI or Groq, and Tavily  
+### 🔑 Prerequisites
+Ensure the following tools are installed:
 
-### Setup Steps  
-- Install frontend dependencies in the `client` folder  
-- Install backend dependencies in the `server` folder  
-- Create `.env` files in both with your API keys  
-- Start the backend server (FastAPI)  
-- Start the frontend server (Next.js)  
-- Visit the app in your browser and start chatting  
+| Tool         | Required Version |
+|--------------|------------------|
+| Node.js      | `v18+`           |
+| Python       | `v3.10+`         |
+| API Keys     | OpenAI / Groq, Tavily |
+
+### 📦 Installation
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/your-username/LangGraph-AI-Chatbot.git
+cd LangGraph-AI-Chatbot
+
+# 2. Install frontend dependencies
+cd client
+npm install
+
+# 3. Install backend dependencies
+cd ../server
+pip install -r requirements.txt
+```
+
+### 🧪 Environment Setup
+
+Create a `.env` file in both `/client` and `/server` folders with the following values:
+
+**Client `.env.local`**
+```env
+NEXT_PUBLIC_API_URL=http://localhost:8000
+```
+
+**Server `.env`**
+```env
+OPENAI_API_KEY=your_openai_key
+GROQ_API_KEY=your_groq_key
+TAVILY_API_KEY=your_tavily_key
+```
+
+---
+
+## 🧪 Running Locally
+
+In two terminals:
+
+```bash
+# Terminal 1: Start Backend
+cd server
+uvicorn main:app --reload
+
+# Terminal 2: Start Frontend
+cd client
+npm run dev
+```
+
+Navigate to: `http://localhost:3000`
 
 ---
 
-## 🧠 Use Case Scenarios
+## 📸 Screenshots
 
-- Ask real-time factual queries and get up-to-date web answers  
-- Follow up on previous questions — the bot remembers context  
-- See the "thought process" of the AI from search to response  
+> *(Insert relevant UI screenshots here — chat flow, search UI, reasoning stages, etc.)*
 
 ---
 
-## 🔗 Integrations
+## 🔗 API Integration
 
-- **LangGraph** – Conversation flow and memory  
-- **Tavily API** – Live web search  
-- **Groq or OpenAI** – Language generation engine  
-- **SSE** – Real-time token streaming for chat interface  
-
----
-
-## 📱 UI Preview
-
-*Include screenshots or GIFs of the chatbot showing:*  
-- Real-time streaming responses  
-- “Searching → Reading → Writing” stage indicators  
-- Mobile and desktop layout  
+- **Tavily Search API**: [https://www.tavily.com](https://www.tavily.com)
+- **Groq API**: [https://console.groq.com](https://console.groq.com)
+- **LangGraph**: Tool chaining and agent flow: [https://langgraph.dev](https://langgraph.dev)
 
 ---
 
-## 📄 License
+## 📚 Learn More
 
-**MIT License** – use freely for learning, customization, and deployment.
+- [LangGraph Docs](https://docs.langgraph.dev/)
+- [FastAPI Docs](https://fastapi.tiangolo.com/)
+- [Next.js Docs](https://nextjs.org/docs)
 
 ---
+
+## 🤝 Contributing
+
+Pull requests are welcome! Please ensure your code follows the project’s code style and passes linting.
+
+---
+
+## 📝 License
+
+[MIT License](LICENSE)
