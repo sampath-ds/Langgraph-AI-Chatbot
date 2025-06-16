@@ -1,159 +1,87 @@
 🧠 LangGraph AI Chatbot
-A Perplexity-style AI chatbot built with Next.js, FastAPI, and LangGraph, featuring real-time streaming, web search via Tavily, and semantic conversational memory. This project demonstrates how to deploy a scalable, modern AI chatbot for both learning and production use.
+A fully customizable, modern AI chatbot interface built with Next.js, FastAPI, and LangGraph — inspired by Perplexity.ai. It offers real-time streaming, integrated web search, and contextual memory for natural, dynamic interactions. This hands-on project is ideal for both learning and production deployment.
 
-✨ Key Features
-🔁 Real-time AI Streaming
-Instant, token-by-token response rendering via Server-Sent Events (SSE)
+✨ Features
+Real-time AI Streaming – Responses are streamed token by token for a fluid chat experience
 
-🌐 Live Web Search
-Dynamic integration with Tavily API to fetch and summarize up-to-date online content
+Live Web Search – Integrates with Tavily API to fetch and summarize up-to-date online content
 
-🧠 Conversation Memory
-Context retention using LangGraph to enable smarter, multi-turn interactions
+Conversation Memory – Retains user history for more intelligent follow-up responses
 
-🔎 Transparent Reasoning Flow
-Clearly visualizes the bot’s reasoning stages: Searching → Reading → Responding
+Transparent Reasoning Flow – Clearly shows the stages of thinking: Searching → Reading → Writing
 
-📱 Responsive Modern UI
-Clean and elegant UI design, optimized for mobile, tablet, and desktop
+Responsive UI – Mobile-first, clean interface with intuitive user experience
 
-🛠️ Tech Stack & Architecture
-🖥️ Frontend — Next.js + React
-Built with Next.js 14+ App Router
+🛠️ Tech Stack
+Frontend – Next.js + React
+Built using the latest features in React and App Router
 
-Supports live updates via SSE from FastAPI
+Seamless token streaming via Server-Sent Events (SSE)
 
-Custom components for:
+Custom components for chat history, user input, and step-by-step AI reasoning
 
-Chat messages
+Designed with Tailwind CSS for clean, modern visuals
 
-User inputs
+Backend – FastAPI + LangGraph
+FastAPI provides REST APIs and real-time streaming endpoints
 
-Search transparency
+LangGraph handles multi-tool reasoning chains and conversation memory
 
-Styled with Tailwind CSS for a sleek UI
+Uses Groq or OpenAI (GPT-4o) for semantic language generation
 
-⚙️ Backend — FastAPI + LangGraph
-FastAPI handles:
+Tavily API fetches real-time web content for enhanced answers
 
-REST endpoints
+Low-latency token streaming for a snappy experience
 
-Real-time streaming
+🔍 How It Works
+User submits a query via the chat interface
 
-LangGraph manages:
+FastAPI receives the query and invokes LangGraph
 
-Multi-step conversational logic
+LangGraph determines whether a web search is required
 
-Search + reasoning tool chaining
+If needed, Tavily API is used to gather relevant web results
 
-Uses:
+The LLM (Groq or OpenAI) synthesizes the final answer using memory and results
 
-Groq (LLaMA) or OpenAI GPT-4o for LLM responses
+The response is streamed token by token to the UI
 
-Tavily Search API for fetching real-time data
+User sees visual feedback for each reasoning stage in real-time
 
-Token responses streamed using SSE for ultra-low latency
-
-🔍 How It Works – Request Lifecycle
-mermaid
-Copy
-Edit
-sequenceDiagram
-    participant User
-    participant Frontend (Next.js)
-    participant Backend (FastAPI)
-    participant LangGraph
-    participant Tavily API
-    participant LLM (GPT-4o/Groq)
-
-    User->>Frontend: Submit query
-    Frontend->>Backend: Send API request (SSE)
-    Backend->>LangGraph: Process via agents
-    LangGraph-->>LLM: Check if search is needed
-    alt External Search Required
-        LangGraph->>Tavily API: Perform search
-        Tavily API-->>LangGraph: Return results
-    end
-    LangGraph-->>LLM: Provide context + search results
-    LLM-->>Backend: Generate response (token by token)
-    Backend-->>Frontend: Stream tokens to UI (SSE)
-    Frontend->>User: Display real-time reasoning flow
 🚀 Getting Started
-🔑 Prerequisites
-Ensure the following tools are installed:
+Prerequisites:
 
-Tool	Required Version
-Node.js	v18+
-Python	v3.10+
-API Keys	OpenAI / Groq, Tavily
+Node.js v18+
 
-📦 Installation
-bash
-Copy
-Edit
-# 1. Clone the repository
-git clone https://github.com/your-username/LangGraph-AI-Chatbot.git
-cd LangGraph-AI-Chatbot
+Python v3.10+
 
-# 2. Install frontend dependencies
-cd client
-npm install
+API keys for OpenAI or Groq, and Tavily
 
-# 3. Install backend dependencies
-cd ../server
-pip install -r requirements.txt
-🧪 Environment Setup
-Create a .env file in both /client and /server folders with the following values:
+Steps:
 
-Client .env.local
+Install frontend dependencies (Next.js)
 
-env
-Copy
-Edit
-NEXT_PUBLIC_API_URL=http://localhost:8000
-Server .env
+Install backend dependencies (FastAPI, LangGraph)
 
-env
-Copy
-Edit
-OPENAI_API_KEY=your_openai_key
-GROQ_API_KEY=your_groq_key
-TAVILY_API_KEY=your_tavily_key
-🧪 Running Locally
-In two terminals:
+Add environment variables for API keys
 
-bash
-Copy
-Edit
-# Terminal 1: Start Backend
-cd server
-uvicorn main:app --reload
+Run backend (FastAPI) and frontend (Next.js) servers
 
-# Terminal 2: Start Frontend
-cd client
-npm run dev
-Navigate to: http://localhost:3000
+Visit the app in your browser and start chatting
 
-📸 Screenshots
-(Insert relevant UI screenshots here — chat flow, search UI, reasoning stages, etc.)
+🧠 Use Case Scenarios
+Ask real-time factual queries and get up-to-date web answers
 
-🔗 API Integration
-Tavily Search API: https://www.tavily.com
+Follow up on previous questions — the bot remembers context
 
-Groq API: https://console.groq.com
+See the "thought process" of the AI from search to response
 
-LangGraph: Tool chaining and agent flow: https://langgraph.dev
+🔗 Integrations
+LangGraph – Conversation flow and memory
 
-📚 Learn More
-LangGraph Docs
+Tavily API – Live web search
 
-FastAPI Docs
+Groq or OpenAI – Language generation engine
 
-Next.js Docs
-
-🤝 Contributing
-Pull requests are welcome! Please ensure your code follows the project’s code style and passes linting.
-
-📝 License
-MIT License
+SSE – Real-time token streaming for chat interface
 
